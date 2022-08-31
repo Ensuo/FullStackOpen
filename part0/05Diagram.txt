@@ -1,0 +1,14 @@
+title New note 
+
+browser -> server : HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server --> browser: HTLM-Code 
+
+browser -> server : HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server --> browser : CSS-Code
+
+browser -> server : HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server --> browser : Js-Code
+
+#Runs Js code, code requests JSON data from page.
+browser -> server : HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server --> browser: Content of note with date

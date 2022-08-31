@@ -1,0 +1,18 @@
+title New note 
+
+browser -> server : HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+server --> browser: New note over 
+
+browser -> server : HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server --> browser : HTML-Code
+
+browser -> server : HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server --> browser : CSS-Code
+
+browser -> server : HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server --> browser: Js-Code
+
+#Runs Js code, code requests JSON data from page.
+
+browser -> server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server --> browser: content: unordered list of content and dates
