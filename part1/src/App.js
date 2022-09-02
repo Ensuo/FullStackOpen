@@ -13,9 +13,7 @@ const App = () => {
   return (
     <div>
       <Header course= 'Half Stack application development'/>
-      <Content part={part1} exercises= {exercises1} />
-      <Content part={part2} exercises={exercises2}/>
-      <Content part={part3} exercises={exercises3}/>
+      <Content part1={part1} exe1= {exercises1} part2={part2} exe2={exercises2} part3={part3} exe3={exercises3}/>
   
       <Total first={exercises1} second={exercises2} third={exercises3}/>
     </div>
