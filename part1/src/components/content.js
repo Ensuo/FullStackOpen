@@ -1,17 +1,12 @@
 import React from "react"
+import Part from "./part.js"
 
 function Content(props) {
     return (
         <div>
-            <p>
-                {props.part1} {props.exe1}
-            </p>
-            <p>
-                {props.part2} {props.exe2}
-            </p>
-            <p>
-                {props.part3} {props.exe3}
-            </p>
+            <Part name={props.part1} quantity={props.exe1}/>
+            <Part name={props.part2} quantity={props.exe2}/>
+            <Part name={props.part3} quantity={props.exe3}/>
         </div>
     )
 }
