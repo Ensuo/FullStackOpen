@@ -5,29 +5,16 @@ const Part = ({ part }) =>
     {part.name} {part.exercises}
   </p>
 
-function amount(item){
-    return item.exercises
-}
-
-function sum(prev, next){
-    return prev + next
-}
-
 const Content = ({ parts }) => 
   <>
-    <Part
-      part={parts[0]} 
-    />
-    <Part
-      part={parts[1]} 
-    />
-    <Part
-      part={parts[2]} 
-    /> 
-    <Part
-      part={parts[3]}
-    />
-    <h3>total of {parts.map(amount).reduce(sum)} exercises</h3>     
+    {
+      Array.from({length: parts.length}, (_, index) => {
+        return <Part part={parts[index]}/>
+      })
+    }
+    <h3>total of {parts.reduce(function(acc, obj) {
+        return acc + obj.exercises
+    }, 0)} exercises</h3>     
   </>
 
 const Course = ({course}) => {
