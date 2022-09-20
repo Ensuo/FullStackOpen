@@ -1,69 +1,61 @@
-import { useState } from 'react'
-import PersonForm from './components/personForm'
-import Person from './components/Person'
-import Find from "./components/Find"
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import PersonForm from './components/personForm';
+import Person from './components/Person';
+import Find from "./components/Find";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { 
-      name: 'Arto Hellas',
-      number: '11-123445678'
-    },
-    { 
-      name: 'Bob jr',
-      number: '112312312312'
-    },
-    { 
-      name: 'Caio santos',
-      number: '89783978989'
-    },
-    {
-      name: 'Rafael bragaca',
-      number: '100321321'
-    }
-  ]) 
+  const [persons, setPersons] = useState([]);
 
-  const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')
-  const [find, setFind] = useState('')
+  const [newName, setNewName] = useState('');
+  const [newNumber, setNewNumber] = useState('');
+  const [find, setFind] = useState('');
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/persons")
+      .then(response => {
+        setPersons(response.data);
+      })
+  },[]);
 
   const addPerson = (event) =>{
-    event.preventDefault()
+    event.preventDefault();
     if(newName === '' || newNumber === ''){
-      alert("Info missing")
+      alert("Info missing");
     }else{
       const person = { 
         name: newName,
         number: newNumber
-      }
+      };
       if(!(persons.some((person) => person.name === newName))){
         if(!(persons.some((person) => person.number === newNumber))){
-          setPersons(persons.concat(person))
-          setNewName('')
-          setNewNumber('')
+          setPersons(persons.concat(person));
+          setNewName('');
+          setNewNumber('');
         }else{
-          alert('Number already exists')
+          alert('Number already exists');
         }
       }else{
-        alert(`${newName} already exists`)
+        alert(`${newName} already exists`);
       }
     }
-  }
+  };
 
   const handleNameChange = (event) => {
-    setNewName(event.target.value)
-  }
+    setNewName(event.target.value);
+  };
 
   const handleNumberChange = (event) => {
-    setNewNumber(event.target.value)
-  }
+    setNewNumber(event.target.value);
+  };
 
   const handleFindChange = (event) => {
-    console.log(event.target.value)
-    setFind(event.target.value)
-  }
+    console.log(event.target.value);
+    setFind(event.target.value);
+  };
 
-  const personsToShow = find == '' ? persons : persons.filter((person) => person.name.toLowerCase().includes(find.toLowerCase()))
+  const personsToShow = find == '' ? persons : persons.filter((person) => person.name.toLowerCase().includes(find.toLowerCase()));
 
   return (
     <div>
@@ -78,7 +70,7 @@ const App = () => {
         )}
       </ul>
     </div>
-  )
+  );
 }
 
 export default App
