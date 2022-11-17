@@ -13,7 +13,7 @@ const App = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/persons")
+      .get("http://localhost:3000/persons")
       .then(response => {
         setPersons(response.data);
       })
@@ -55,7 +55,7 @@ const App = () => {
     setFind(event.target.value);
   };
 
-  const personsToShow = find == '' ? persons : persons.filter((person) => person.name.toLowerCase().includes(find.toLowerCase()));
+  const personsToShow = find === '' ? persons : persons.filter((person) => person.name.toLowerCase().includes(find.toLowerCase()));
 
   return (
     <div>
