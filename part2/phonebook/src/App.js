@@ -6,14 +6,15 @@ import Find from "./components/Find";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
-
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [find, setFind] = useState('');
 
+  const url = "http://localhost:3001/persons";
+
   useEffect(() => {
     axios
-      .get("http://localhost:3000/persons")
+      .get(url)
       .then(response => {
         setPersons(response.data);
       })
@@ -28,9 +29,15 @@ const App = () => {
         name: newName,
         number: newNumber
       };
+
       if(!(persons.some((person) => person.name === newName))){
         if(!(persons.some((person) => person.number === newNumber))){
           setPersons(persons.concat(person));
+          axios
+            .post(url, person)
+            .then(response => 
+              console.log(response)
+            );
           setNewName('');
           setNewNumber('');
         }else{
