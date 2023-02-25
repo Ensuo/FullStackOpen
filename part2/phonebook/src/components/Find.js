@@ -1,9 +1,9 @@
 import React from "react";
 
-const Find = ({find, handleFind}) => {
+const Search = ({search, handleSearch}) => {
     return (
-        <div>find: <input value={find} onChange={handleFind}/></div>
+        <div>find: <input value={search} onChange={handleSearch}/></div>
     )
 }
 
-export default Find
+export default Search
