@@ -10,6 +10,7 @@ const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
+  const [notif, setNotif] = useState(null)
   const [search, setSearch] = useState('');
 
   const handleNameChange = (event) => {
@@ -24,6 +25,18 @@ const App = () => {
     console.log(event.target.value);
     setSearch(event.target.value);
   };
+
+  const Notification = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+  
+    return (
+      <div className='notification'>
+        {message}
+      </div>
+    )
+  }
 
   useEffect(() => { //Get all persons that are in the backend
     phoneService
@@ -50,7 +63,10 @@ const App = () => {
             .create(person)
             .then(response => {
               console.log(response)
-              window.location.reload();
+              setNotif('Added a new contact');
+              setTimeout(() => {          
+                setNotif(null);        
+              }, 5000);
             });
           setNewName('');
           setNewNumber('');
@@ -65,8 +81,11 @@ const App = () => {
             .update(temp.id , temp)
             .then(response => {
               console.log(response)
-              window.location.reload();
-            });
+              setNotif(`Updated ${newName}'s phone number`);
+              setTimeout(() => {          
+                setNotif(null);          
+              }, 5000);
+            })
           setNewName('');
           setNewNumber('');
         }
@@ -80,7 +99,10 @@ const App = () => {
           .remove(persons[p.id - 1].id) //Id representado no arquivo json
           .then(result => {
               console.log(result);
-              window.location.reload();
+              setNotif(`Removed ${newName} from the list`);
+              setTimeout(() => {          
+                setNotif(null);     
+              }, 5000);
           });
     }
   }
@@ -90,6 +112,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notif} />
       <Search value={search} handleSearch={handleSearchChange} />
       <h2>Add a new</h2>
       <PersonForm onSubmit={addPerson} newName = {newName} newNumber={newNumber} handleName={handleNameChange} handleNumber={handleNumberChange}/>
