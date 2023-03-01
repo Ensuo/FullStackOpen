@@ -1,0 +1,33 @@
+#search{
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-gap:2px;
+}
+
+#search label{
+    text-align: right;
+    font-size: 15px;
+}
+
+#search label:after{
+    content: ":";
+}
+
+.capital, .area{
+    font-size: 20px;
+}
+
+.langTitle{
+    font-size:20px;
+}
+
+.langList{
+    font-size:20px;
+    padding-left: 3em;
+}
+
+
+.flag{
+    height: auto;
+    max-width: 15%;
+}
