@@ -7,6 +7,11 @@ import './style.css';
 
 const App = () =>{
   const [search, setSearch] = useState('');
+  const [lat, setLat] = useState(0);
+  const [lon, setLon] = useState(0);
+  const [temp, setTemp] = useState(0);
+  const [icon, setIcon] = useState("");
+  const [wind, setWind] = useState(0);
   const [countries, setCountries] = useState([]); 
 
   const handleSearch = (e) => {
@@ -22,8 +27,31 @@ const App = () =>{
   });
 
   const filter= countries.filter(country => country.name.common.toLowerCase().includes(search.toLowerCase()));
-  const displayable = filter.length < 10 ? true : false;
-  const onlyOne = filter.length == 1 ? true: false;
+  const length = filter.length;
+
+  useEffect(() => {
+    if(length === 1){
+      countryService
+          .getCoords(filter[0].capital)
+          .then((response) =>{ 
+              setLat(response.data[0].lat);
+              setLon(response.data[0].lon);
+          });
+    }
+  }, [])
+
+  useEffect(() => {
+    if(length === 1){
+      countryService
+        .getWeather(lat, lon)
+        .then((response) => {
+            setTemp(response.data.main.temp - 273);
+            setIcon(response.data.weather[0].icon);
+            setWind(response.data.wind.speed);
+        });
+      }
+  }, [])
+  
 
   return (
     <div>
@@ -32,10 +60,10 @@ const App = () =>{
         <input type="text" value={search} onChange={handleSearch} id='country'></input>
       </div>
         <ul>
-          {onlyOne?(
-            <Country key = {filter[0].population} {...filter[0]}/>
-          ):(displayable?(
-              filter.map((c) => <li key = {c.name.official}>{c.name.common}</li>)
+          {length === 1?(
+            <Country key = {filter[0].population} onlyOne={length===1} temp={temp} icon={icon} wind={wind} {...filter[0]}/>
+          ):(length < 10?(
+              filter.map((c) => <Country key = {c.name.official} onlyOne={length===1} temp={temp} icon={icon} wind={wind} {...c}/>)
             ):(
               <div>Too many matches, specify another filter dumbtard </div>
             )

@@ -13,12 +13,22 @@
     content: ":";
 }
 
-.capital, .area{
+.name, .info{
     font-size: 20px;
 }
 
-.langTitle{
-    font-size:20px;
+.head{
+    display : flex;
+    align-items: center;
+}
+
+.head button{
+    height: 10%;
+}
+
+.title{
+    font-size:25px;
+    font-weight: bold;
 }
 
 .langList{
@@ -29,5 +39,5 @@
 
 .flag{
     height: auto;
-    max-width: 15%;
+    max-width: 30%;
 }
