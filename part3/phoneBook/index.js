@@ -1,13 +1,17 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 
 const app = express()
 
+
 morgan.token('body', function (req, res) {
-    return JSON.stringify(req.body);
+    return JSON.stringify(req.body)
 });
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+app.use(cors())
+app.use(express.static('build'))
 
 let contacts = [
     { 
@@ -34,33 +38,33 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/persons', (request, response) => {
-    response.json(contacts);
+    response.json(contacts)
 })
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id);
-    const person = contacts.find(person => person.id == id);
+    const id = Number(request.params.id)
+    const person = contacts.find(person => person.id == id)
 
     if(person){
-        response.json(person);
+        response.json(person)
     }else{
-        response.json(404).end();
+        response.json(404).end()
     }
 })
 
 app.get('/info', (request, response) => {
-    response.send(`<p>Phonebook has ${contacts.length} people.</p><p>${new Date()}</p>`);
+    response.send(`<p>Phonebook has ${contacts.length} people.</p><p>${new Date()}</p>`)
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id);
-    contacts = contacts.filter(contact => contact.id != id);
+    const id = Number(request.params.id)
+    contacts = contacts.filter(contact => contact.id != id)
 
-    response.status(204).end();
+    response.status(204).end()
 })
 
 app.post('/api/persons', (request, response) => {
-    const body = request.body;
+    const body = request.body
     
     if (!body.name) {
         return response.status(400).json({ 
@@ -86,11 +90,11 @@ app.post('/api/persons', (request, response) => {
         number: body.number,
     }
 
-    contacts = contacts.concat(person);
-    response.json(person);
+    contacts = contacts.concat(person)
+    response.json(person)
 })
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 })

@@ -5,7 +5,6 @@ import Search from "./components/Find";
 import phoneService from './services/phoneService';
 
 const App = () => {
-  const url = "http://localhost:3001/persons";
 
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
