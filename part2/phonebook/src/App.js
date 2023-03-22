@@ -52,21 +52,26 @@ const App = () => {
     }else{
       const person = {  //Create a new person
         name: newName,
-        number: newNumber
+        number: newNumber,
       };
 
       if(!(persons.some((person) => person.name === newName))){ //checking if the current name is already present in persons array
         if(!(persons.some((person) => person.number === newNumber))){ //checking if the current number already exists
-          setPersons(persons.concat(person));
           phoneService //putting in backend
             .create(person)
             .then(response => {
-              console.log(response)
               setNotif('Added a new contact');
+              setPersons(persons.concat(person));
               setTimeout(() => {          
                 setNotif(null);        
               }, 5000);
-            });
+              })
+              .catch(error => {
+                setNotif(`${error.response.data.error}`)
+                setTimeout(() => {          
+                  setNotif(null);          
+                }, 5000);
+              })
           setNewName('');
           setNewNumber('');
         }else{
@@ -79,7 +84,6 @@ const App = () => {
           phoneService
             .update(temp.id , temp)
             .then(response => {
-              console.log(response)
               setNotif(`Updated ${newName}'s phone number`);
               setTimeout(() => {          
                 setNotif(null);          
