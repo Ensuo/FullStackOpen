@@ -11,13 +11,12 @@ app.use(morgan(':method :status :res[header]'))
 app.use(express.static('build'))
 app.use(express.json())
 
-let contacts = [
-]
+let contacts = []
 
-app.get('/api/persons', (request, response, next) => {
-    Person.
-        find({}).
-        then(persons => {
+app.get('/api/persons', (request, response) => {
+    Person
+        .find({})
+        .then(persons => {
             persons.forEach(person => {
                 contacts = contacts.concat(person)
             })
@@ -41,9 +40,9 @@ app.get('/api/persons/:id', (request, response, next) => {
 app.delete('/api/persons/:id', async (request, response, next) => {
     Person
         .findByIdAndRemove(request.params.id)
-        .then(result => {
+        .then(
             response.status(204).end()
-        })
+        )
         .catch(error => next(error))
 
     contacts = contacts.filter(person => person.id.toString() !== request.params.id)
@@ -83,7 +82,7 @@ app.put('/api/persons/:id', (request, response, next) => {
         number: body.number
     }
 
-    Person.findByIdAndUpdate(request.params.id, person, {new: true, runValidators: true, context: 'query'})
+    Person.findByIdAndUpdate(request.params.id, person,{ new: true, runValidators: true, context: 'query' })
         .then(updatedPerson => {
             response.json(updatedPerson)
         })
@@ -91,20 +90,18 @@ app.put('/api/persons/:id', (request, response, next) => {
 })
 
 const unknownEndpoint = (request, response) => {
-    response.status(404).send({error : 'unknown endpoint'})
+    response.status(404).send({ error : 'unknown endpoint' })
 }
 
 app.use(unknownEndpoint)
 
 const errorHandler = (error, request, response, next) => {
     console.error(error.message)
-  
     if (error.name === 'CastError') {
-      return response.status(400).send({ error: 'malformatted id' })
+        return response.status(400).send({ error: 'malformatted id' })
     }else if(error.name === 'ValidationError') {
-        return response.status(400).json({error : error.message})
+        return response.status(400).json({ error : error.message })
     }
-  
     next(error)
 }
 
@@ -112,5 +109,5 @@ app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`)
 })
