@@ -1,0 +1,17 @@
+POST http://localhost:3003/api/blogs HTTP/1.1
+Content-Type: application/json
+
+{
+    "title": "harry and the potter",
+    "author": "JK clinton",
+    "url" : "google.com",
+    "likes": 2
+}
+###
+GET http://localhost:3003/api/blogs
+
+###
+GET http://localhost:3003/api/blogs/64272d4168485b6a1875f598
+
+###
+DELETE http://localhost:3003/api/blogs/64272d4168485b6a1875f598 HTTP/1.1
